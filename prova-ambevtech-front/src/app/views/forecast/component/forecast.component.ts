@@ -31,7 +31,6 @@ export class ForecastComponent implements OnInit {
         this.service.buscarPrevisao(this.nomeCidade).subscribe(
             (response) => {
                 this.forecast = response;
-                console.log(this.forecast);
             }
         );
     }
