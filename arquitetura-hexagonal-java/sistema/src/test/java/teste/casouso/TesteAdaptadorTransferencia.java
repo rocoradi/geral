@@ -21,8 +21,10 @@ public class TesteAdaptadorTransferencia {
     Integer contaInexistente = 30;
     BigDecimal cem = new BigDecimal(100);
     BigDecimal cinquenta = new BigDecimal(50);
+
     @Inject
     PortaTransferencia porta;
+
     // negativos get conta
     @Test
     @DisplayName("pesquisa conta com número nulo")
@@ -45,6 +47,7 @@ public class TesteAdaptadorTransferencia {
             fail("Deva carregar uma conta nula.");
         }
     }
+
     // positivo get conta
     @Test
     @DisplayName("pesquisa conta com número existente")
@@ -57,6 +60,7 @@ public class TesteAdaptadorTransferencia {
             fail("Deva carregar uma conta existente.");
         }
     }
+
     // negativos transferencia
     @Test
     @DisplayName("conta crédito como obrigatório")
@@ -97,23 +101,25 @@ public class TesteAdaptadorTransferencia {
     void teste7() {
         try {
             porta.transferir(contaInexistente, contaCredito, cinquenta);
-            fail("Conta débito inexistente");
+            fail("Conta débito é inexistente.");
         } catch (NegocioException e) {
-            assertEquals(e.getMessage(), "Conta débito inexistente.");
+            assertEquals(e.getMessage(), "Conta débito é inexistente.");
             System.out.println(e.getMessage());
         }
     }
+
     @Test
     @DisplayName("conta crédito inexistente")
     void teste8() {
         try {
             porta.transferir(contaDebito, contaInexistente, cinquenta);
-            fail("Conta crédito inexistente");
+            fail("Conta crédito é inexistente.");
         } catch (NegocioException e) {
-            assertEquals(e.getMessage(), "Conta crédito inexistente.");
+            assertEquals(e.getMessage(), "Conta crédito é inexistente.");
             System.out.println(e.getMessage());
         }
     }
+
     @Test
     @DisplayName("mesma conta débito e crédito")
     void teste9() {
@@ -125,6 +131,7 @@ public class TesteAdaptadorTransferencia {
                     System.out.println(e.getMessage());
         }
     }
+
     // Observação:
     // Não se faz necessário refazer os testes de valor nulo, zero ou negativo, no caso de uso, pois ele repassa os
     // objetos internos de domínio já testados. Cada teste deve garantir o serviço implementadas dentro da classe a
@@ -142,7 +149,7 @@ public class TesteAdaptadorTransferencia {
             var credito = porta.getConta(contaCredito);
             var debito = porta.getConta(contaDebito);
             assertEquals(credito.getSaldo(), cem.add(cinquenta), "Saldo crédito deve bater");
-                    assertEquals(debito.getSaldo(), cem.subtract(cinquenta), "Saldo débito deve bater");
+            assertEquals(debito.getSaldo(), cem.subtract(cinquenta), "Saldo débito deve bater");
         } catch (NegocioException e) {
             fail("Não deve gerar erro de validação de saldo - " + e.getMessage());
         }
